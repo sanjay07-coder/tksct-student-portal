@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TKSCT — Student Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    :root { --purple: #168a57; }
+    .brand-panel { background: linear-gradient(145deg, #063d2c 0%, #087548 52%, #30a76e 100%); }
+    .brand-mark { color: #168a57; }
+    .form-eyebrow, .show-password, .text-link { color: #087548; }
+    .field input:focus, .record-form select:focus, .record-form input:focus { border-color: #30a76e; box-shadow: 0 0 0 3px #dff5e8; }
+    .primary-button, .secondary-button, .dark-brand .brand-mark { background: #168a57; }
+    .primary-button:hover, .secondary-button:hover { background: #087548; }
+    .profile-pill, .purple, .semester-label { background: #dff5e8; color: #087548; }
+    .progress i { background: #168a57; }
+    .field select { width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 13px 14px; background: #fff; color: var(--ink); outline: none; }
+    .field select:focus { border-color: #30a76e; box-shadow: 0 0 0 3px #dff5e8; }
+    .staff-only { display: none; }
+    .staff-mode .staff-only { display: block; }
+    .login-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 5px; margin-bottom: 25px; border-radius: 10px; background: #edf3ef; }
+    .login-tab { border: 0; padding: 10px; border-radius: 7px; color: #52655b; background: transparent; font-size: 13px; font-weight: 700; }
+    .login-tab.active { background: #fff; color: #087548; box-shadow: 0 1px 5px #073e2414; }
+    .secondary-view h2 { margin-top: 10px; }
+    .back-button { border: 0; background: transparent; color: #087548; padding: 0; margin-bottom: 22px; font-size: 13px; font-weight: 700; }
+    .otp-demo { margin: -12px 0 20px; padding: 10px 12px; color: #216840; background: #e4f6ea; border-radius: 8px; font-size: 13px; line-height: 1.45; }
+    .student-admin { margin-top: 20px; padding: 25px 28px; border: 1px solid var(--line); border-radius: 15px; background: #fff; }
+    .student-admin h3 { margin: 0 0 20px; font: 700 20px "Plus Jakarta Sans", sans-serif; }
+    .student-form { display: grid; grid-template-columns: 1.2fr 1.3fr 1fr 125px; gap: 10px; }
+    .student-form input, .student-form select { min-width: 0; border: 1px solid #dddbe7; border-radius: 9px; padding: 11px 12px; background: #fff; }
+    .student-form .secondary-button { width: auto; padding: 11px 12px; box-shadow: none; }
+    .student-list { display: grid; gap: 9px; margin-top: 14px; }
+    .student-item { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #ececf1; border-radius: 9px; }
+    .student-item div { flex: 1; min-width: 0; } .student-item strong, .student-item small { display: block; } .student-item small { color: var(--muted); margin-top: 2px; }
+    .student-item button { border: 0; border-radius: 7px; padding: 7px 9px; font-size: 12px; font-weight: 700; } .edit-student { color: #087548; background: #dff5e8; } .delete-student { color: #b63d49; background: #ffe7e8; }
+    @media (max-width: 680px) { .student-form { grid-template-columns: 1fr 1fr; } .student-form input:first-child, .student-form input:nth-child(2), .student-form .secondary-button { grid-column: 1 / 3; } .student-item { align-items: flex-start; flex-wrap: wrap; } .student-item div { width: 100%; flex-basis: 100%; } }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <section class="brand-panel">
+      <a class="brand" href="https://www.tksct.sn.in" aria-label="TKSCT home"><span class="brand-mark">✦</span> TKSCT</a>
+      <div class="brand-copy"><p class="eyebrow">STUDENT PORTAL</p><h1>Everything you need for college, in one place.</h1><p>Stay on top of attendance, classes and academic progress throughout the semester.</p></div>
+      <div class="quote-card"><div class="avatar-stack"><span>S</span><span>A</span><span>C</span></div><p>“Checking my attendance takes just a few seconds.”</p><small>— Student, CSE Department</small></div>
+    </section>
+    <section class="form-panel" aria-live="polite">
+      <div class="form-wrap" id="authView">
+        <div class="login-tabs login-only" aria-label="Select login type"><button type="button" class="login-tab active" data-login-role="student">Student Login</button><button type="button" class="login-tab" data-login-role="staff">Staff Login</button></div>
+        <p class="eyebrow form-eyebrow" id="formKicker">STUDENT LOGIN</p><h2 id="formTitle">Welcome back, student</h2><p class="form-subtitle" id="formSubtitle">Sign in to view your academic dashboard.</p>
+        <form id="authForm" novalidate>
+          <div class="field create-only"><label for="name">Full name</label><input id="name" type="text" placeholder="Alex Morgan" autocomplete="name"></div>
+          <div class="field create-only"><label for="role">Account type</label><select id="role"><option value="student">Student</option><option value="staff">Staff</option></select></div>
+          <div class="field"><label for="email">College email / Register number</label><input id="email" type="text" placeholder="student@college.edu" autocomplete="username" required></div>
+          <div class="field"><label for="password">Password</label><div class="password-input"><input id="password" type="password" placeholder="Enter your password" autocomplete="current-password" required minlength="6"><button class="show-password" type="button">Show</button></div><p class="field-hint create-only">Use at least 6 characters.</p></div>
+          <div class="form-row login-only"><label class="check-label"><input type="checkbox" checked><span>Keep me signed in</span></label><button type="button" id="forgotLink" class="text-link">Forgot password?</button></div>
+          <label class="check-label terms create-only"><input type="checkbox" id="terms"><span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</span></label>
+          <p class="error-message" id="errorMessage" role="alert"></p><button class="primary-button" type="submit" id="submitButton">Sign in <span>→</span></button>
+        </form>
+        <p class="switch-text" id="switchText">New student? <button type="button" class="text-link switch-mode">Create an account</button></p>
+      </div>
+      <div class="form-wrap secondary-view" id="verifyView" hidden><button type="button" class="back-button" data-back="auth">Back to login</button><p class="eyebrow form-eyebrow">EMAIL VERIFICATION</p><h2>Verify your email</h2><p class="form-subtitle">We sent a one-time password to <b id="verifyEmail"></b>.</p><div class="otp-demo" id="verifyOtpHint"></div><form id="verifyForm"><div class="field"><label for="verifyOtp">Enter 6-digit OTP</label><input id="verifyOtp" inputmode="numeric" maxlength="6" placeholder="000000" required></div><p class="error-message" id="verifyError" role="alert"></p><button class="primary-button" type="submit">Verify and create account</button></form></div>
+      <div class="form-wrap secondary-view" id="resetView" hidden><button type="button" class="back-button" data-back="auth">Back to login</button><p class="eyebrow form-eyebrow">PASSWORD RECOVERY</p><h2 id="resetTitle">Reset your password</h2><p class="form-subtitle" id="resetSubtitle">Enter the email or register number for your account.</p><form id="resetForm"><div class="field"><label for="resetEmail">College email / Register number</label><input id="resetEmail" type="text" placeholder="student@college.edu" required></div><div class="reset-code-fields" hidden><div class="otp-demo" id="resetOtpHint"></div><div class="field"><label for="resetOtp">Enter 6-digit OTP</label><input id="resetOtp" inputmode="numeric" maxlength="6" placeholder="000000"></div><div class="field"><label for="newPassword">New password</label><input id="newPassword" type="password" minlength="6" placeholder="At least 6 characters"></div></div><p class="error-message" id="resetError" role="alert"></p><button class="primary-button" type="submit" id="resetButton">Send OTP</button></form></div>
+      <div class="dashboard" id="dashboardView" hidden>
+        <header class="dashboard-header"><a class="brand dark-brand" href="https://www.tksct.sn.in" aria-label="TKSCT home"><span class="brand-mark">✦</span> TKSCT</a><button id="logoutButton" class="logout-button">Log out</button></header>
+        <div class="welcome-row"><div><p class="eyebrow form-eyebrow" id="dashboardKicker">STUDENT DASHBOARD</p><h2 id="welcomeTitle">Good morning.</h2><p class="form-subtitle" id="dashboardSubtitle">Your attendance and academic overview for this semester.</p></div><div class="profile-pill" id="profileInitial">A</div></div>
+        <div class="stats-grid"><article><span class="stat-icon purple">✓</span><p>Overall attendance</p><strong id="overallAttendance">86%</strong><small>Above 75% requirement</small></article><article><span class="stat-icon orange">▣</span><p>Classes attended</p><strong id="classesAttended">43/50</strong><small>7 classes missed</small></article><article><span class="stat-icon blue">★</span><p>Average mark</p><strong id="averageMark">--</strong><small>Enter marks below</small></article></div>
+        <section class="attendance-card"><div class="attendance-heading"><div><p class="eyebrow form-eyebrow">SUBJECT-WISE ATTENDANCE</p><h3>Attendance report</h3></div><span class="semester-label">Semester 4</span></div><div class="subject-list"><div class="subject-row"><span>Data Structures</span><div class="progress"><i id="dataStructuresBar" style="width:92%"></i></div><b id="dataStructuresAttendance">92%</b></div><div class="subject-row"><span>Database Management</span><div class="progress"><i id="databaseManagementBar" style="width:88%"></i></div><b id="databaseManagementAttendance">88%</b></div><div class="subject-row"><span>Computer Networks</span><div class="progress warning"><i id="computerNetworksBar" style="width:76%"></i></div><b id="computerNetworksAttendance">76%</b></div><div class="subject-row"><span>Mathematics</span><div class="progress"><i id="mathematicsBar" style="width:84%"></i></div><b id="mathematicsAttendance">84%</b></div></div></section>
+        <section class="record-card staff-only"><div><p class="eyebrow form-eyebrow">STAFF CONTROLS</p><h3>Enter attendance and marks</h3><p class="record-note">Staff can update the subject, semester, attendance percentage and mark.</p></div><form id="recordForm" class="record-form"><select id="semesterSelect" aria-label="Semester"><option>Semester 1</option><option>Semester 2</option><option>Semester 3</option><option selected>Semester 4</option><option>Semester 5</option><option>Semester 6</option></select><select id="subjectSelect" aria-label="Subject"><option value="dataStructures">Data Structures</option><option value="databaseManagement">Database Management</option><option value="computerNetworks">Computer Networks</option><option value="mathematics">Mathematics</option></select><input id="attendanceInput" type="number" min="0" max="100" placeholder="Attendance %" required><input id="marksInput" type="number" min="0" max="100" placeholder="Mark / 100" required><button class="secondary-button" type="submit">Save record</button></form><div class="mark-actions"><span>Mark today’s selected class:</span><button id="presentButton" type="button" class="present-button">✓ Present</button><button id="absentButton" type="button" class="absent-button">× Absent</button></div><p id="recordMessage" class="record-message" role="status"></p></section>
+        <section class="student-admin staff-only"><p class="eyebrow form-eyebrow">STUDENT MANAGEMENT</p><h3>Add, modify or delete students</h3><form id="studentForm" class="student-form"><input id="studentName" type="text" placeholder="Student name" required><input id="studentEmail" type="text" placeholder="College email / Register number" required><select id="studentSemester"><option>Semester 1</option><option>Semester 2</option><option>Semester 3</option><option selected>Semester 4</option><option>Semester 5</option><option>Semester 6</option></select><input id="editStudentId" type="hidden"><button class="secondary-button" id="studentSaveButton" type="submit">Add student</button></form><p id="studentMessage" class="record-message" role="status"></p><div id="studentList" class="student-list"></div></section>
+      </div>
+    </section>
+  </main><script src="app.js"></script>
+</body></html>
